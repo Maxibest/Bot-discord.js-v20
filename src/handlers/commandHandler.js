@@ -3,8 +3,17 @@ const path = require('path');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v10');
 
+//Variables d'environnement
+const token = process.env.token;    
+const clientId = process.env.CLIENT_ID;
+
+//Si les variables d'environnement sont manquantes, on quitte le programme
+if (!token || !clientId) {
+    throw new Error('Missing required environment variables. Please check your .env file.');
+}
+
 //Function loadCommands pour charger les commandes
-async function loadCommands(client, token, clientId, guildId) {
+async function loadCommands(client) {
     const commandsArray = [];
     const commandFiles = await fs.readdir(path.join(__dirname, '../commands'));
     
@@ -29,22 +38,22 @@ async function loadCommands(client, token, clientId, guildId) {
         return;
     }
 
-    const rest = new REST({ version: '10' }).setToken(token);
+    const rest = new REST({ version: '10' }).setToken(client.config.token);
 
     try {
         console.log(`Started refreshing ${commandsArray.length} application (/) commands.`);
 
         try {
             await rest.put(
-                Routes.applicationCommands(clientId),
+                Routes.applicationCommands(client.config.clientId),
                 { body: commandsArray }
             );
             console.log('✅ Successfully registered commands globally');
         } catch (error) {
-            if (!guildId) throw error; // pas de guildId => on ne peut pas faire l'enregistrement par serveur
+            if (!client.config.clientId) throw error; // pas de clientId => on ne peut pas faire l'enregistrement par serveur
             console.log('⚠️ Global registration failed, trying guild-specific registration...');
             await rest.put(
-                Routes.applicationGuildCommands(clientId, guildId),
+                Routes.applicationGuildCommands(client.config.clientId),
                 { body: commandsArray }
             );
             console.log('✅ Successfully registered commands for specific guild');

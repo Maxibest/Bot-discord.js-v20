@@ -7,10 +7,11 @@ class Bot {
         this.client = new Client({ intents: [GatewayIntentBits.Guilds] });
         this.token = token;
         this.client.commands = new Collection();
-
+        this.client.token = token;
         this._registerEvents();
-    }
 
+    }
+    //Fonction pour enregistrer les événements
     _registerEvents() {
         this.client.once('ready', () => {
             console.log(`Connecté en tant que ${this.client.user.tag}`);

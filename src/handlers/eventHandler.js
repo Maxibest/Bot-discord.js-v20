@@ -12,9 +12,9 @@ async function loadEvents(client) {
         const eventName = file.split('.')[0];
         
         if (event.once) {
-            client.once(eventName, (...args) => event.execute(...args, client));
+            client.once(event.name, (...args) => event.execute(...args, client));
         } else {
-            client.on(eventName, (...args) => event.execute(...args, client));
+            client.on(event.name, (...args) => event.execute(...args, client));
         }
         
         client.events.set(eventName, event);
