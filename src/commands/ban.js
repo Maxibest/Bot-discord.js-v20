@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { PermissionsBitField, PermissionFlagsBits } = require("discord.js");
 const Command = require(`../structures/Command`);
+const { EmbedBuilder } = require("discord.js");
 
 class BanCommand extends Command {
   constructor() {
@@ -52,7 +53,7 @@ class BanCommand extends Command {
         )
         .setTimestamp()
         .setFooter({ text: "Membre banni" });
-      await interaction.reply({ embeds: [embed], ephemeral: true });
+      await interaction.reply({ embeds: [embed], flags: 64 });
     }
 
     try {

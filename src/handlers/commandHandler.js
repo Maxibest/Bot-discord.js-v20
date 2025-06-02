@@ -15,6 +15,7 @@ if (!token || !clientId) {
 //Function loadCommands pour charger les commandes
 async function loadCommands(client) {
     const commandsArray = [];
+    
     const commandFiles = await fs.readdir(path.join(__dirname, '../commands'));
     
     for (const file of commandFiles) {
