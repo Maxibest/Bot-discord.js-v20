@@ -18,3 +18,15 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db 
+
+avatars/
+warnlist.js
+punch.js
+kiss.js
+slap.js
+avatars.js
+removeWarn.js
+unban.js
+tempban.js
+snipe.js
+banner.js
